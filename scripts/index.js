@@ -33,3 +33,55 @@ const initialCards = [
 initialCards.forEach((card) => {
   console.log(card.name);
 });
+
+// ---- Etapa 2: Editar perfil ----
+
+// 1. Selecciona los elementos del DOM que vamos a necesitar
+const editButton = document.querySelector(".profile__edit-button");
+const editPopup = document.querySelector("#edit-popup");
+const editPopupCloseButton = editPopup.querySelector(".popup__close");
+
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+
+const editProfileForm = editPopup.querySelector("#edit-profile-form");
+const nameInput = editProfileForm.querySelector(".popup__input_type_name");
+const descriptionInput = editProfileForm.querySelector(
+  ".popup__input_type_description"
+);
+
+// 2. Funciones reutilizables para abrir/cerrar cualquier modal
+function openModal(modal) {
+  modal.classList.add("popup_is-opened");
+}
+
+function closeModal(modal) {
+  modal.classList.remove("popup_is-opened");
+}
+
+// 3. Rellena los campos del formulario con los valores actuales de la página
+function fillProfileForm() {
+  nameInput.value = profileTitle.textContent;
+  descriptionInput.value = profileDescription.textContent;
+}
+
+// Rellena el formulario y abre el modal de edición
+function handleOpenEditModal() {
+  fillProfileForm();
+  openModal(editPopup);
+}
+
+// Maneja el envío del formulario: guarda los cambios y cierra el modal
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+
+  profileTitle.textContent = nameInput.value;
+  profileDescription.textContent = descriptionInput.value;
+
+  closeModal(editPopup);
+}
+
+// 6. Escucha los clics y el envío del formulario
+editButton.addEventListener("click", handleOpenEditModal);
+editPopupCloseButton.addEventListener("click", () => closeModal(editPopup));
+editProfileForm.addEventListener("submit", handleProfileFormSubmit);
