@@ -22,13 +22,22 @@
   justify-content: center;
   background: #000;
   border-radius: 2px;
-  border: none;
+  border: 1px solid transparent;
+  box-sizing: border-box;
   margin-top: 48px;
 }
 
 .popup__button:hover {
   background: rgba(0, 0, 0, 0.8);
   cursor: pointer;
+}
+
+.popup__button_disabled,
+.popup__button_disabled:hover {
+  background: transparent;
+  color: #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: not-allowed;
 }
 
 .popup__close {
@@ -78,6 +87,24 @@
 
 .popup__input:last-of-type {
   margin-bottom: 0;
+}
+
+.popup__input_type_error {
+  border-bottom: 1px solid #ff0000;
+}
+
+.popup__input-error {
+  display: block;
+  min-height: 14px;
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ff0000;
+  opacity: 0;
+}
+
+.popup__input-error_active {
+  opacity: 1;
 }
 
 .popup__title {
