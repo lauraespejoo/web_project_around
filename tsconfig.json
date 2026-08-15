@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./public",
+    "allowJs": true,
+
+    // Environment Settings
+    "module": "es6",
+    "target": "es2016",
+    "types": [],
+
+    // Stricter Typechecking Options
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+
+    // Recommended Options
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  }
+}
