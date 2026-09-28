@@ -21,4 +21,4 @@ Página web interactiva donde el usuario puede compartir fotos de lugares, edita
 
 ## Demo
 
-https://lauraespejoo.github.io/web_project_around_es/
+https://lauraespejoo.github.io/web_project_around/
