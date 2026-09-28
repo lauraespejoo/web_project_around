@@ -2,8 +2,7 @@
 // No sabe nada sobre tarjetas: recibe el marcado ya construido a través
 // de la función "renderer" (acoplamiento débil).
 export class Section {
-    constructor({ items, renderer }, containerSelector) {
-        this.items = items;
+    constructor({ renderer }, containerSelector) {
         this.renderer = renderer;
         const container = document.querySelector(containerSelector);
         if (!container) {
@@ -11,9 +10,9 @@ export class Section {
         }
         this.container = container;
     }
-    // Renderiza todos los elementos iniciales llamando al renderer por cada uno
-    renderItems() {
-        this.items.forEach((item) => {
+    // Renderiza los elementos recibidos (por ejemplo, las tarjetas del servidor)
+    renderItems(items) {
+        items.forEach((item) => {
             this.renderer(item);
         });
     }

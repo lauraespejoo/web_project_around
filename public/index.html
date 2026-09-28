@@ -19,7 +19,14 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img class="profile__image" src="./images/avatar.jpg" alt="Avatar" />
+          <div class="profile__image-container">
+            <img class="profile__image" src="./images/avatar.jpg" alt="Avatar" />
+            <button
+              aria-label="Cambiar foto de perfil"
+              class="profile__avatar-button"
+              type="button"
+            ></button>
+          </div>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -139,8 +146,42 @@
           <p class="popup__caption"></p>
         </div>
       </div>
+      <div class="popup" id="delete-popup">
+        <div class="popup__content popup__content_type_confirm">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">¿Estás seguro/a?</h3>
+          <form class="popup__form" id="delete-card-form" novalidate>
+            <button class="button popup__button" type="submit">Sí</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup" id="avatar-popup">
+        <div class="popup__content popup__content_type_avatar">
+          <button
+            aria-label="Cerrar ventana emergente"
+            class="popup__close"
+            type="button"
+          ></button>
+          <h3 class="popup__title">Cambiar foto de perfil</h3>
+          <form class="popup__form" id="avatar-form" novalidate>
+            <input
+              class="popup__input popup__input_type_url"
+              id="avatar-input"
+              name="avatar"
+              placeholder="Enlace a la imagen"
+              required
+              type="url"
+            />
+            <span class="popup__input-error" id="avatar-input-error"></span>
+            <button class="button popup__button" type="submit">Guardar</button>
+          </form>
+        </div>
+      </div>
     </div>
     <script type="module" src="./index.js"></script>
   </body>
 </html>
- 

@@ -4,14 +4,16 @@ import { Popup } from "./Popup.js";
 // handleFormSubmit (acoplamiento débil).
 export class PopupWithForm extends Popup {
     constructor(popupSelector, handleFormSubmit) {
+        var _a;
         super(popupSelector);
         this.handleSubmit = (evt) => {
             evt.preventDefault();
             this.handleFormSubmit(this.getInputValues());
-            this.formElement.reset();
         };
         this.handleFormSubmit = handleFormSubmit;
         this.formElement = this.popupElement.querySelector(".popup__form");
+        this.submitButton = this.formElement.querySelector(".popup__button");
+        this.submitButtonText = (_a = this.submitButton.textContent) !== null && _a !== void 0 ? _a : "";
     }
     // Recorre los inputs y devuelve un objeto { nombreDelCampo: valor }
     getInputValues() {
@@ -21,6 +23,10 @@ export class PopupWithForm extends Popup {
             values[inputElement.name] = inputElement.value;
         });
         return values;
+    }
+    // Cambia el texto del botón mientras se envían los datos al servidor
+    renderLoading(isLoading, loadingText = "Guardando...") {
+        this.submitButton.textContent = isLoading ? loadingText : this.submitButtonText;
     }
     // Sobrescribe setEventListeners() para además escuchar el envío del formulario
     setEventListeners() {

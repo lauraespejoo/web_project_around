@@ -1,20 +1,43 @@
-import type { CardData, HandleCardClick } from "../types/types.js";
+import type {
+  CardData,
+  HandleCardClick,
+  HandleLikeClick,
+  HandleDeleteClick,
+} from "../types/types.js";
 
 // Construye una tarjeta individual a partir de una plantilla HTML.
-// No sabe nada sobre popups: al hacer clic en la imagen simplemente
-// avisa al exterior a través de handleCardClick (acoplamiento débil).
+// No sabe nada sobre popups ni sobre la API: avisa al exterior
+// a través de callbacks (acoplamiento débil).
 export class Card {
+  private data: CardData;
   private name: string;
   private link: string;
+  private isLiked: boolean;
+  private userId: string;
   private templateSelector: string;
   private handleCardClick: HandleCardClick;
+  private handleLike: HandleLikeClick;
+  private handleDelete: HandleDeleteClick;
   private element!: HTMLElement;
+  private likeButton!: HTMLButtonElement;
 
-  constructor(data: CardData, templateSelector: string, handleCardClick: HandleCardClick) {
+  constructor(
+    data: CardData,
+    userId: string,
+    templateSelector: string,
+    handleCardClick: HandleCardClick,
+    handleLike: HandleLikeClick,
+    handleDelete: HandleDeleteClick,
+  ) {
+    this.data = data;
     this.name = data.name;
     this.link = data.link;
+    this.isLiked = data.isLiked;
+    this.userId = userId;
     this.templateSelector = templateSelector;
     this.handleCardClick = handleCardClick;
+    this.handleLike = handleLike;
+    this.handleDelete = handleDelete;
   }
 
   private getTemplate(): HTMLElement {
@@ -29,32 +52,44 @@ export class Card {
     return cardElement.cloneNode(true) as HTMLElement;
   }
 
+  // Pinta el corazón lleno o vacío según this.isLiked
+  private updateLikeView(): void {
+    this.likeButton.classList.toggle("card__like-button_is-active", this.isLiked);
+  }
+
   // Función flecha como propiedad para conservar el contexto de "this"
   // al pasarla como callback a addEventListener
-  private handleLikeClick = (): void => {
-    const likeButton = this.element.querySelector(".card__like-button") as HTMLElement;
-    likeButton.classList.toggle("card__like-button_is-active");
+  private handleLikeClick = async (): Promise<void> => {
+    try {
+      const updatedCard = await this.handleLike(this.data._id, !this.isLiked);
+      this.isLiked = updatedCard.isLiked;
+      this.updateLikeView();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  // No borra directamente: avisa al exterior (que abrirá el popup de confirmación)
+  // y le pasa una función para quitar la tarjeta cuando el servidor confirme
   private handleDeleteClick = (): void => {
-    this.element.remove();
+    this.handleDelete(this.data._id, () => this.element.remove());
   };
 
   private setEventListeners(): void {
-    const likeButton = this.element.querySelector<HTMLButtonElement>(".card__like-button");
     const deleteButton = this.element.querySelector<HTMLButtonElement>(".card__delete-button");
     const imageElement = this.element.querySelector<HTMLImageElement>(".card__image");
 
-    likeButton?.addEventListener("click", this.handleLikeClick);
+    this.likeButton.addEventListener("click", this.handleLikeClick);
     deleteButton?.addEventListener("click", this.handleDeleteClick);
     imageElement?.addEventListener("click", () => {
-      this.handleCardClick({ name: this.name, link: this.link });
+      this.handleCardClick(this.data);
     });
   }
 
   // Ensambla la tarjeta y devuelve el elemento listo para insertar en el DOM
   generateCard(): HTMLElement {
     this.element = this.getTemplate();
+    this.likeButton = this.element.querySelector(".card__like-button") as HTMLButtonElement;
 
     const imageElement = this.element.querySelector<HTMLImageElement>(".card__image");
     const titleElement = this.element.querySelector<HTMLElement>(".card__title");
@@ -67,6 +102,12 @@ export class Card {
       titleElement.textContent = this.name;
     }
 
+    // La papelera solo se muestra en las tarjetas que creó el usuario actual
+    if (this.data.owner !== this.userId) {
+      this.element.querySelector(".card__delete-button")?.remove();
+    }
+
+    this.updateLikeView();
     this.setEventListeners();
     return this.element;
   }

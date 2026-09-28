@@ -7,11 +7,15 @@ import type { FormValues, HandleFormSubmit } from "../types/types.js";
 export class PopupWithForm extends Popup {
   private handleFormSubmit: HandleFormSubmit;
   private formElement: HTMLFormElement;
+  private submitButton: HTMLButtonElement;
+  private submitButtonText: string;
 
   constructor(popupSelector: string, handleFormSubmit: HandleFormSubmit) {
     super(popupSelector);
     this.handleFormSubmit = handleFormSubmit;
     this.formElement = this.popupElement.querySelector(".popup__form") as HTMLFormElement;
+    this.submitButton = this.formElement.querySelector(".popup__button") as HTMLButtonElement;
+    this.submitButtonText = this.submitButton.textContent ?? "";
   }
 
   // Recorre los inputs y devuelve un objeto { nombreDelCampo: valor }
@@ -26,10 +30,14 @@ export class PopupWithForm extends Popup {
     return values;
   }
 
+  // Cambia el texto del botón mientras se envían los datos al servidor
+  renderLoading(isLoading: boolean, loadingText = "Guardando..."): void {
+    this.submitButton.textContent = isLoading ? loadingText : this.submitButtonText;
+  }
+
   private handleSubmit = (evt: SubmitEvent): void => {
     evt.preventDefault();
     this.handleFormSubmit(this.getInputValues());
-    this.formElement.reset();
   };
 
   // Sobrescribe setEventListeners() para además escuchar el envío del formulario

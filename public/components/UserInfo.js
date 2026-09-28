@@ -1,9 +1,10 @@
 // Responsable exclusivo de leer y escribir la información del usuario
-// (nombre y descripción) en la página
+// (nombre, descripción y foto) en la página
 export class UserInfo {
-    constructor({ nameSelector, descriptionSelector }) {
+    constructor({ nameSelector, descriptionSelector, avatarSelector }) {
         this.nameElement = document.querySelector(nameSelector);
         this.descriptionElement = document.querySelector(descriptionSelector);
+        this.avatarElement = document.querySelector(avatarSelector);
     }
     getUserInfo() {
         var _a, _b;
@@ -15,5 +16,8 @@ export class UserInfo {
     setUserInfo({ name, description }) {
         this.nameElement.textContent = name;
         this.descriptionElement.textContent = description;
+    }
+    setAvatar(link) {
+        this.avatarElement.src = link;
     }
 }

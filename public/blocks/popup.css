@@ -69,6 +69,11 @@
   padding: 34px 36px;
 }
 
+.popup__content_type_confirm,
+.popup__content_type_avatar {
+  min-height: auto;
+}
+
 .popup__form {
   margin-top: 27px;
 }
