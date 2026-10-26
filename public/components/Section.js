@@ -16,8 +16,13 @@ export class Section {
             this.renderer(item);
         });
     }
-    // Agrega un único elemento ya construido al contenedor
+    // Agrega un elemento al principio del contenedor (tarjeta recién creada)
     addItem(element) {
         this.container.prepend(element);
+    }
+    // Agrega un elemento al final del contenedor (carga inicial),
+    // así se conserva el orden en que llegan del servidor
+    appendItem(element) {
+        this.container.append(element);
     }
 }

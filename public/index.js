@@ -79,7 +79,7 @@ function createCard(data) {
 const cardSection = new Section({
     renderer: (item) => {
         const cardElement = createCard(item);
-        cardSection.addItem(cardElement);
+        cardSection.appendItem(cardElement);
     },
 }, ".cards__list");
 // ---- Popup de nueva tarjeta ----

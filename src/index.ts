@@ -84,7 +84,7 @@ const cardSection = new Section<CardData>(
   {
     renderer: (item) => {
       const cardElement = createCard(item);
-      cardSection.addItem(cardElement);
+      cardSection.appendItem(cardElement);
     },
   },
   ".cards__list"

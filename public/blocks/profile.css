@@ -143,4 +143,26 @@
     max-width: 222px;
   }
 
-  .profile__description
+  .profile__description {
+    width: 100%;
+    font-size: 14px;
+    line-height: 17px;
+    max-width: 282px;
+  }
+
+  .profile__image-container {
+    margin-right: 0;
+  }
+
+  .profile__add-button {
+    width: 100%;
+    max-width: 282px;
+    margin: 0 auto;
+  }
+
+  .profile__edit-button {
+    width: 18px;
+    height: 18px;
+    background-size: 8px 8px;
+  }
+}
